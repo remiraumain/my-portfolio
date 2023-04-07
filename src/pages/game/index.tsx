@@ -2,6 +2,8 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { Canvas } from "@react-three/fiber";
 import Experience from "~/components/3d/Experience";
+import { Suspense } from "react";
+import * as THREE from "three";
 
 const Game: NextPage = () => {
   return (
@@ -20,9 +22,13 @@ const Game: NextPage = () => {
               far: 200,
               position: [2.5, 4, 6],
             }}
+            linear
+            gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
           >
-            <ambientLight color={"white"} intensity={0.3} />
-            <Experience />
+            <Suspense>
+              <ambientLight color={"white"} intensity={0.3} />
+              <Experience />
+            </Suspense>
           </Canvas>
         </div>
       </main>
