@@ -28,7 +28,7 @@ const Game: NextPage = () => {
             gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
           >
             <Suspense>
-              {start && (
+              {!start && (
                 <>
                   <ambientLight color={"white"} intensity={0.3} />
                   <Experience />

@@ -3,6 +3,9 @@ import { RigidBody } from "@react-three/rapier";
 import { RigidBodyApi } from "@react-three/rapier/dist/declarations/src/types";
 import { useRef, useState } from "react";
 import * as THREE from "three";
+import { useLoader } from "@react-three/fiber";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+import { useGLTF, useTexture } from "@react-three/drei";
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 
@@ -27,6 +30,16 @@ const BlockStart = ({ position = [0, 0, 0] as Vector3 }) => {
 };
 
 const BlockEnd = ({ position = [0, 0, 0] as Vector3 }) => {
+  // const fbx = useLoader(FBXLoader, "./models/Sandcrawler.fbx");
+  const sandcrawler = useGLTF("./models/Sandcrawler-transformed.glb");
+
+  sandcrawler.scene.children.forEach((mesh) => {
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+  });
+  // const textureProps = useTexture({
+  //   map: "./textures/Sandcrawler_1_Base_Color.png",
+  // });
   return (
     <group position={position}>
       <mesh
@@ -36,6 +49,15 @@ const BlockEnd = ({ position = [0, 0, 0] as Vector3 }) => {
         receiveShadow
         material={floor1Material}
       />
+      <RigidBody
+        type="fixed"
+        // colliders="hull"
+        position={[0, 0.815, 0]}
+        restitution={0.2}
+        friction={0}
+      >
+        <primitive object={sandcrawler.scene} scale={[0.3, 0.3, 0.3]} />
+      </RigidBody>
     </group>
   );
 };

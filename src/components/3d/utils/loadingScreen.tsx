@@ -8,7 +8,7 @@ interface Props {
 
 const LoadingScreen = ({ started = false, onStarted }: Props) => {
   const { progress } = useProgress();
-  if (progress === 100 || started) return null; //Issue when loading is too fast does not update progress
+  //   if (progress === 100 || started) return null; //Issue when loading is too fast does not update progress
   return (
     <div
       className={`${
