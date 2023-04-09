@@ -2,10 +2,12 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { Canvas } from "@react-three/fiber";
 import Experience from "~/components/3d/Experience";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import * as THREE from "three";
+import LoadingScreen from "~/components/3d/utils/loadingScreen";
 
 const Game: NextPage = () => {
+  const [start, setStart] = useState(false);
   return (
     <>
       <Head>
@@ -26,10 +28,15 @@ const Game: NextPage = () => {
             gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
           >
             <Suspense>
-              <ambientLight color={"white"} intensity={0.3} />
-              <Experience />
+              {start && (
+                <>
+                  <ambientLight color={"white"} intensity={0.3} />
+                  <Experience />
+                </>
+              )}
             </Suspense>
           </Canvas>
+          <LoadingScreen started={start} onStarted={() => setStart(true)} />
         </div>
       </main>
     </>
